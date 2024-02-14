@@ -1,38 +1,43 @@
-const express = require("express");
-const mongoose = require("mongoose");
-const cors = require("cors");
-const rout = require("./Routers/router");
 
-const app = express();
-const PORT = 1900;
 
-// Middleware
+User
+const express=require("express");
+const app=express();
 app.use(express.json());
+const PORT=1900;
+const mongoose=require("mongoose");
+const cors=require("cors");
+app.use(cors())
+// app.use(cors({origin:"http://localhost:3000/"}, Method="GET"));
 
-// MongoDB Connection
-mongoose.connect("mongodb+srv://ramya:Ramya1234@cluster0.ssbc8ox.mongodb.net/your-database-name", {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
+
+// PORT=process.env.Port || 1900;
+// const bcrypt=require("bcryptjs");
+// const jsonwebtoken=require("jsonwebtoken");
+// const body=require('body-parser');
+
+mongoose.connect("mongodb+srv://ramya:Ramya1234@cluster0.ssbc8ox.mongodb.net/",
+{
+    useNewUrlParser:true,
 });
 
-const db = mongoose.connection;
-db.on("error", (error) => {
-    console.error("MongoDB Connection Error:", error);
+const db=mongoose.connection;
+// db.on("error",console.error.bind(console,"connection failed")),
+db.on("error",(error)=>{
+    console.log("Connection Error");
+})
+db.once("open",()=>{
+    console.log("Connected Successfully");
 });
-db.once("open", () => {
-    console.log("Connected to MongoDB Successfully");
-});
 
-// CORS Configuration
-app.use(cors({
-    origin: "https://zomato-frontend-bay.vercel.app",
-    methods: ["GET", "POST", "PUT", "DELETE"],
-}));
+const rout=require("./Routers/router");
+app.use("/",rout);
 
-// Routes
-app.use("/", rout);
-
-// Server Start
-app.listen(PORT, () => {
+app.listen(PORT,()=>{
     console.log(`Server is running on: ${PORT}`);
 });
+
+app.use(cors({
+  origin: "https://zomato-frontend-bay.vercel.app/",
+  methods: ["GET", "POST", "PUT", "DELETE"], // specify the allowed HTTP methods
+}));
