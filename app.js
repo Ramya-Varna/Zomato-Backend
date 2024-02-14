@@ -7,7 +7,6 @@ const app = express();
 const PORT = 1900;
 
 // Middleware
-app.use(cors());
 app.use(express.json());
 
 // MongoDB Connection
@@ -24,14 +23,14 @@ db.once("open", () => {
     console.log("Connected to MongoDB Successfully");
 });
 
-// Routes
-app.use("/", rout);
-
 // CORS Configuration
 app.use(cors({
     origin: "https://zomato-frontend-bay.vercel.app",
     methods: ["GET", "POST", "PUT", "DELETE"],
 }));
+
+// Routes
+app.use("/", rout);
 
 // Server Start
 app.listen(PORT, () => {
