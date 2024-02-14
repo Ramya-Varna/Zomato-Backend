@@ -5,12 +5,13 @@ const rout = require("./Routers/router");
 
 const app = express();
 const PORT = 1900;
+app.use(cors());
 
 // Middleware
-app.use(cors({
-    origin: "https://zomato-frontend-bay.vercel.app",
-    methods: ["GET", "POST", "PUT", "DELETE"],
-}));
+// app.use(cors({
+//     origin: "https://zomato-frontend-bay.vercel.app",
+//     methods: ["GET", "POST", "PUT", "DELETE"],
+// }));
 app.use(express.json());
 
 // MongoDB Connection
